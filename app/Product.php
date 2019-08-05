@@ -19,8 +19,9 @@ class Product extends Model
     ];
     public $sortable = ['name', 'created_at'];
 
-    public function Detail()
+    public function Order()
     {
-        return $this->belongsTo('App\Detail','product_id');
+        return $this->belongsToMany('App\Order','orders','product_id','order_id')
+            ->withPivot('amount')->withTimestamps();
     }
 }

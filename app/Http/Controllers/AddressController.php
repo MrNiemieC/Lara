@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     function __construct()
     {
         $this->middleware('permission:address-list');
@@ -21,11 +16,6 @@ class AddressController extends Controller
         $this->middleware('permission:address-delete', ['only' => ['destroy']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $address = Address::sortable()->paginate(5);
@@ -33,97 +23,65 @@ class AddressController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('address.create');
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
-
-
+        $messages = [
+            'city.required' => 'Miasto jest wymagane do utworzenia adresu',
+            'postal_code.required' => 'Kod pocztowy jest wymagany do utworzenia adresu',
+            'street.required' => 'Ulica jest wymagana do utworzenia adresu',
+            'house_number.required' => 'Numer domu jest wymagany do utworzenia adresu',
+        ];
+        $validate_array = [
+            'city' => 'required',
+            'postal_code' => 'required',
+            'street' => 'required',
+            'house_number' => 'required',
+        ];
+        $this->validate($request, $validate_array, $messages);
         Address::create($request->all());
-
-
         return redirect()->route('address.index')
-            ->with('success', 'Product created successfully.');
+            ->with('success', 'Adres stworzony pomyślnie.');
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
     public function show(Address $address)
     {
         return view('address.show', compact('address'));
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Address $address)
     {
         return view('address.edit', compact('address'));
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Address $address)
     {
-        request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
-
-
+        $messages = [
+            'city.required' => 'Miasto jest wymagane do zaktualizowania adresu',
+            'postal_code.required' => 'Kod pocztowy jest wymagany do zaktualizowania adresu',
+            'street.required' => 'Ulica jest wymagana do zaktualizowania adresu',
+            'house_number.required' => 'Numer domu jest wymagany do zaktualizowania adresu',
+        ];
+        $validate_array = [
+            'city' => 'required',
+            'postal_code' => 'required',
+            'street' => 'required',
+            'house_number' => 'required',
+        ];
+        $this->validate($request, $validate_array, $messages);
         $address->update($request->all());
-
-
         return redirect()->route('address.index')
-            ->with('success', 'Address updated successfully');
+            ->with('success', 'Adres zaktualizowano pomyślnie');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Address $address)
     {
         $address->delete();
-
         return redirect()->route('address.index')
-            ->with('success', 'Address deleted successfully');
+            ->with('success', 'Adres usunięty pomyślnie');
     }
 }

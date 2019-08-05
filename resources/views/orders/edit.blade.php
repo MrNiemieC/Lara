@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Tworzenie nowego zamówienia</h2>
+                <h2>Edycja zamówienia</h2>
             </div>
             <div class="pull-right">
                 <a class="btn btn-primary" href="{{ route('orders.index') }}">Wstecz</a>
@@ -20,8 +20,9 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('orders.store',['user'=>Auth::user()->id]) }}" method="POST">
+    <form action="{{ route('orders.update',$order->id) }}" method="POST">
         @csrf
+        @method('PUT')
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
@@ -50,34 +51,9 @@
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            @php
-                $details = DB::table('details');
-                $products = \App\Product::all();
-                $j = 0;
-            @endphp
-            <table class="table table-dark">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Amount</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach ($products as $options)
-                    <tr>
-                        <th scope="row">{{++$j}}</th>
-                        <td>{{$options->name}}</td>
-                        <td><input type="number" class="form-control" name="amount{{$options->name}}"></td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Wyślij</button>
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Wyślij</button>
+            </div>
         </div>
     </form>
 @endsection

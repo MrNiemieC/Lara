@@ -15,21 +15,22 @@ class Order extends Model
 
     public function Status()
     {
-        return $this->hasOne('App\Status','status_id');
+        return $this->hasOne('App\Status','id','status_id');
     }
 
     public function User()
     {
-        return $this->hasOne('App\User','user_id');
+        return $this->hasOne('App\User','id','user_id');
     }
 
     public function Address()
     {
-        return $this->hasOne('App\Address','address_id');
+        return $this->hasOne('App\Address','id','address_id');
     }
 
-    public function Detail()
+    public function Product()
     {
-        return $this->belongsToMany('App\Order','details_id');
+        return $this->belongsToMany('App\Product','details','order_id','product_id')
+            ->withPivot('amount')->withTimestamps();
     }
 }

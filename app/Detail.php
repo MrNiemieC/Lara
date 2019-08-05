@@ -12,15 +12,7 @@ class Detail extends Model
      * @var array
      */
     protected $fillable = [
-        'product_id', 'amount'
+        'product_id', 'order_id', 'amount'
     ];
 
-    public function Order()
-    {
-        return $this->belongsTo('App\Order','details_id');
-    }
-    public function Product()
-    {
-        return $this->hasMany('App\Product','product_id');
-    }
 }

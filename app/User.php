@@ -40,11 +40,11 @@ class User extends Authenticatable
 
     public function Address()
     {
-        return $this->belongsTo('App\Address','address_id');
+        return $this->belongsTo('App\Address','id','address_id');
     }
 
     public function Order()
     {
-        return $this->belongsTo('App\Order','user_id');
+        return $this->belongsTo('App\Order','id','user_id');
     }
 }

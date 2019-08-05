@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     function __construct()
     {
         $this->middleware('permission:product-list');
@@ -21,11 +16,6 @@ class ProductController extends Controller
         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $products = Product::sortable()->paginate(5);
@@ -33,97 +23,57 @@ class ProductController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('products.create');
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        request()->validate([
+        $messages = [
+            'name.required' => 'Nazwa jest wymagana do utworzenia produktu',
+            'detail.required' => 'Opis jest wymagany do utowrzenia produktu',
+        ];
+        $validate_array = [
             'name' => 'required',
             'detail' => 'required',
-        ]);
-
-
+        ];
+        $this->validate($request, $validate_array, $messages);
         Product::create($request->all());
-
-
         return redirect()->route('products.index')
-            ->with('success', 'Product created successfully.');
+            ->with('success', 'Produkt utworzony pomyślnie.');
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
     public function show(Product $product)
     {
         return view('products.show', compact('product'));
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Product $product)
     {
         return view('products.edit', compact('product'));
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Product $product)
     {
-        request()->validate([
+        $messages = [
+            'name.required' => 'Nazwa jest wymagana do zaktualizowania produktu',
+            'detail.required' => 'Opis jest wymagany do zaktualizowania produktu',
+        ];
+        $validate_array = [
             'name' => 'required',
             'detail' => 'required',
-        ]);
-
-
+        ];
+        $this->validate($request, $validate_array, $messages);
         $product->update($request->all());
-
-
         return redirect()->route('products.index')
-            ->with('success', 'Product updated successfully');
+            ->with('success', 'Produkt zaktualizowany pomyślnie');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Product $product)
     {
         $product->delete();
-
         return redirect()->route('products.index')
-            ->with('success', 'Product deleted successfully');
+            ->with('success', 'Produkt usunięty pomyślnie');
     }
 }

@@ -31,6 +31,13 @@ class PermissionTableSeeder extends Seeder
             'users-create',
             'users-edit',
             'users-delete',
+            'address-list',
+            'address-create',
+            'address-edit',
+            'address-delete',
+            'orders-edit',
+            'orders-delete',
+            'orders-status',
         ];
 
 
