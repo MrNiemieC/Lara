@@ -18,4 +18,9 @@ class Product extends Model
         'name', 'detail'
     ];
     public $sortable = ['name', 'created_at'];
+
+    public function Detail()
+    {
+        return $this->belongsTo('App\Detail','product_id');
+    }
 }

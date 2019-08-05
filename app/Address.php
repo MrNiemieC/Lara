@@ -10,4 +10,14 @@ class Address extends Model
     protected $fillable = [
         'city', 'postal-code', 'street', 'house_number', 'apartment_number', 'user_id'
     ];
+
+    public function Order()
+    {
+        return $this->belongsTo('App\Order','address_id');
+    }
+
+    public function User()
+    {
+        return $this->hasMany('App\User','user_id');
+    }
 }

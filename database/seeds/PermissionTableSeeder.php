@@ -24,9 +24,13 @@ class PermissionTableSeeder extends Seeder
             'product-delete',
             'status-list',
             'orders-list',
+            'orders-create',
             'orders-filter-employee',
-            'orders-filter-client'
-
+            'orders-filter-client',
+            'users-list',
+            'users-create',
+            'users-edit',
+            'users-delete',
         ];
 
 

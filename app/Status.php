@@ -16,4 +16,9 @@ class Status extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function Order()
+    {
+        return $this->belongsTo('App\Order','status_id');
+    }
 }

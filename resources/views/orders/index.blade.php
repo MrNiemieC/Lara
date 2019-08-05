@@ -49,6 +49,11 @@
                     </form>
                 @endcanany
             </div>
+            <div class="pull-right">
+                @can('orders-create')
+                    <a class="btn btn-success" href="{{ route('orders.create') }}"> Create New Order</a>
+                @endcan
+            </div>
         </div>
     </div>
 
